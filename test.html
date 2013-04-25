@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+	<script>
+		var captions = [
+			[0, "Bang"],
+			[3, "a"],
+			[5, "rang"]
+		];
+
+		function updateCaptions() {
+
+			var audio = document.getElementById("audio");
+			var caption = document.getElementById("caption");
+			var time = audio.currentTime;
+			if (time < 3) {
+				caption.innerHTML = "Bang";
+			} else if (time < 10) {
+				caption.innerHTML = "a rang";
+			} else {
+				caption.innerHTML = "wub wub wub";
+			}
+		}
+
+		function onPageLoad() {
+			var audio = document.getElementById("audio");
+			audio.addEventListener('timeupdate', updateCaptions);
+		}
+
+		window.onload = onPageLoad;
+	</script>
+</head>
+<body>
+	<div id = "caption">Captions go here</div>
+	<audio id = "audio" controls>
+		<source src="audio.mp3" type="audio/mpeg">
+		Error, Will Robinson!
+	</audio>
+</body>
