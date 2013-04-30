@@ -18,6 +18,7 @@
 			this.captionElement = captionElement;
 			this.captionArray = captionArray;
 			this.captionIndex = 0;
+			this.captionDisplayed = false;
 			this.updateCaptions = function() {
 				var captionUpdateNeeded = false;
 				var time = this.audioElement.currentTime;
@@ -37,14 +38,23 @@
 				}
 
 				// Update caption
-				if (captionUpdateNeeded) {
+				if (captionUpdateNeeded || !captionDisplayed) {
 					this.captionElement.innerHTML = this.captionArray[this.captionIndex - 1][1];
+					captionDisplayed = true;
 				}
+			};
+			this.removeCaptions = function() {
+				this.captionElement.innerHTML = "&nbsp;";
+				captionDisplayed = false;
 			};
 			captioner = this;
 			audioElement.addEventListener('timeupdate',
 					function() {
 						captioner.updateCaptions();
+					});
+			audioElement.addEventListener('ended',
+					function() {
+						captioner.removeCaptions();
 					});
 		}
 
