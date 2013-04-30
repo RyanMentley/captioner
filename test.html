@@ -10,7 +10,6 @@
 
 
 		function onPageLoad() {
-			var audio = document.getElementById("audio");
 			new Captioner(document.getElementById("audio"), document.getElementById("caption"), captions);
 		}
 
@@ -20,12 +19,26 @@
 			this.captionArray = captionArray;
 			this.captionIndex = 0;
 			this.updateCaptions = function() {
-				if (this.captionIndex < captionArray.length) {
-					var time = this.audioElement.currentTime;
+				var captionUpdateNeeded = false;
+				var time = this.audioElement.currentTime;
+
+				// Do we need to advance to the next caption?
+				if (this.captionIndex < this.captionArray.length) {
 					if (time > this.captionArray[this.captionIndex][0]) {
-						this.captionElement.innerHTML = this.captionArray[this.captionIndex][1];
+						captionUpdateNeeded = true;
 						this.captionIndex++;
 					}
+				}
+
+				// Backtrack if needed (in case audio position is moved backward)
+				while (this.captionIndex > 0 && this.captionArray[this.captionIndex - 1][0] > time) {
+					this.captionIndex--;
+					captionUpdateNeeded = true;
+				}
+
+				// Update caption
+				if (captionUpdateNeeded) {
+					this.captionElement.innerHTML = this.captionArray[this.captionIndex - 1][1];
 				}
 			};
 			captioner = this;
