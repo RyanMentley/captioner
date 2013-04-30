@@ -4,7 +4,8 @@
 		var captions = [
 			[0, "Bang"],
 			[3, "a"],
-			[5, "rang"]
+			[5, "rang"],
+			[10, "wub wub wub"]
 		];
 
 
@@ -17,14 +18,14 @@
 			this.audioElement = audioElement;
 			this.captionElement = captionElement;
 			this.captionArray = captionArray;
+			this.captionIndex = 0;
 			this.updateCaptions = function() {
-				var time = this.audioElement.currentTime;
-				if (time < 3) {
-					this.captionElement.innerHTML = "Bang";
-				} else if (time < 10) {
-					this.captionElement.innerHTML = "a rang";
-				} else {
-					this.captionElement.innerHTML = "wub wub wub";
+				if (this.captionIndex < captionArray.length) {
+					var time = this.audioElement.currentTime;
+					if (time > this.captionArray[this.captionIndex][0]) {
+						this.captionElement.innerHTML = this.captionArray[this.captionIndex][1];
+						this.captionIndex++;
+					}
 				}
 			};
 			captioner = this;
