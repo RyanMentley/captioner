@@ -23,16 +23,16 @@ function Captioner(audioElement, captionElement, captionArray) {
 		}
 
 		// Update caption
-		if (captionUpdateNeeded || !captionDisplayed) {
+		if (captionUpdateNeeded || !this.captionDisplayed) {
 			this.captionElement.innerHTML = this.captionArray[this.captionIndex - 1][1];
 			captionDisplayed = true;
 		}
 	};
 	this.removeCaptions = function() {
 		this.captionElement.innerHTML = "&nbsp;";
-		captionDisplayed = false;
+		this.captionDisplayed = false;
 	};
-	captioner = this;
+	var captioner = this;
 	audioElement.addEventListener('timeupdate',
 			function() {
 				captioner.updateCaptions();
